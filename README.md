@@ -87,7 +87,6 @@
 
 - Python 3.11+
 - Node.js 20+
-- Docker & Docker Compose
 - Google API Key ([get one here](https://makersuite.google.com/app/apikey))
 
 ### 1. Clone & Configure
@@ -96,17 +95,40 @@
 git clone https://github.com/BimalaWijekoon/Scholar-Mind.git
 cd Scholar-Mind
 
-# Copy and configure environment
 cp .env.example .env
-# Edit .env and set your GOOGLE_API_KEY
+# Edit .env → set GOOGLE_API_KEY + database credentials
 ```
 
-### 2. Start Infrastructure
+### 2. Set Up Infrastructure
+
+Choose **one** of two modes:
+
+<details>
+<summary>☁️ <b>Cloud Mode (No Docker Required)</b> — Recommended for quick start</summary>
+
+Sign up for free-tier managed services:
+
+| Service | Sign Up | Free Tier |
+|---------|---------|-----------|
+| **PostgreSQL** | [neon.tech](https://neon.tech) | 0.5 GB storage |
+| **Neo4j** | [neo4j.com/aura](https://neo4j.com/cloud/platform/aura-graph-database/) | 1 free instance |
+| **Redis** | [upstash.com](https://upstash.com) | 10K commands/day |
+
+Then paste the connection strings into your `.env` file — see [`.env.example`](.env.example) for the exact format.
+
+</details>
+
+<details>
+<summary>🐳 <b>Docker Mode (Local)</b> — Full local setup</summary>
 
 ```bash
 docker compose up -d
 # Starts: PostgreSQL, Neo4j, Redis, MinIO
 ```
+
+Then use the Docker connection strings in `.env` (commented out in `.env.example`).
+
+</details>
 
 ### 3. Start Backend
 
