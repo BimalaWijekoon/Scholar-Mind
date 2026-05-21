@@ -34,7 +34,7 @@ class ReportService:
             Report data dictionary
         """
         report = {
-            "generated_at": datetime.utcnow().isoformat(),
+            "generated_at": datetime.now(timezone.utc).isoformat(),
             "document_count": len(document_ids),
             "document_ids": document_ids,
         }
@@ -61,7 +61,7 @@ class ReportService:
             Graph report data
         """
         return {
-            "generated_at": datetime.utcnow().isoformat(),
+            "generated_at": datetime.now(timezone.utc).isoformat(),
             "graph_statistics": {
                 "total_nodes": 0,
                 "total_edges": 0,
@@ -88,7 +88,7 @@ class ReportService:
             Entity report data
         """
         return {
-            "generated_at": datetime.utcnow().isoformat(),
+            "generated_at": datetime.now(timezone.utc).isoformat(),
             "entity_types": entity_types or ["all"],
             "entities": [],
             "statistics": {

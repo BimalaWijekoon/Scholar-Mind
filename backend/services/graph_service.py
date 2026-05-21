@@ -92,7 +92,7 @@ class GraphService:
                     }
                 }
                 added += 1
-                print(f"   📊 Added entity to graph: {entity_text} ({entity_type})")
+                logger.info(f"   📊 Added entity to graph: {entity_text} ({entity_type})")
             else:
                 # Add document reference if not already there
                 if document_id not in _entity_store[entity_id]["documents"]:
@@ -133,7 +133,7 @@ class GraphService:
             # Fallback: create new ID
             return f"{fallback_type}_{text_lower}"
         
-        print(f"   📋 Processing {len(relations)} potential relations...")
+        logger.info(f"   📋 Processing {len(relations)} potential relations...")
         
         for relation in relations:
             source_text = relation.get("source", "")
@@ -186,9 +186,9 @@ class GraphService:
                     "properties": {"confidence": relation.get("confidence", 0.5)}
                 })
                 added += 1
-                print(f"   🔗 Added relation: {source_text} --[{rel_type}]--> {target_text}")
+                logger.info(f"   🔗 Added relation: {source_text} --[{rel_type}]--> {target_text}")
         
-        print(f"   ✅ Total relations added: {added}")
+        logger.info(f"   ✅ Total relations added: {added}")
         return added
     
     async def extract_and_store(
@@ -348,9 +348,9 @@ class GraphService:
         
         # If no real entities yet, return helpful message
         if not nodes:
-            print("   ⚠️ No entities in graph yet. Upload a document to populate the knowledge graph.")
+            logger.info("   ⚠️ No entities in graph yet. Upload a document to populate the knowledge graph.")
         else:
-            print(f"   📊 Returning {len(nodes)} nodes and {len(edges)} edges from graph")
+            logger.info(f"   📊 Returning {len(nodes)} nodes and {len(edges)} edges from graph")
         
         return {
             "nodes": nodes,
