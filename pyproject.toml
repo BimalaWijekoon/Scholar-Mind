@@ -33,10 +33,11 @@ keywords = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/bimalawijekoon/scholarmind"
-Documentation = "https://github.com/bimalawijekoon/scholarmind#readme"
-Repository = "https://github.com/bimalawijekoon/scholarmind"
-Issues = "https://github.com/bimalawijekoon/scholarmind/issues"
+Homepage = "https://github.com/BimalaWijekoon/Scholar-Mind"
+Documentation = "https://github.com/BimalaWijekoon/Scholar-Mind#readme"
+Repository = "https://github.com/BimalaWijekoon/Scholar-Mind"
+Issues = "https://github.com/BimalaWijekoon/Scholar-Mind/issues"
+Changelog = "https://github.com/BimalaWijekoon/Scholar-Mind/blob/main/CHANGELOG.md"
 
 [tool.setuptools.packages.find]
 where = ["."]
