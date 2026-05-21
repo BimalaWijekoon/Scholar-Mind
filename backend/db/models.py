@@ -2,7 +2,7 @@
 Database Models - SQLAlchemy models for the application
 """
 
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional, List
 from sqlalchemy import (
     Column, String, Text, DateTime, Integer, Float,
@@ -14,6 +14,11 @@ import uuid
 import enum
 
 from backend.db.database import Base
+
+
+def _utcnow():
+    """Timezone-aware UTC datetime (replaces deprecated datetime.utcnow)."""
+    return datetime.now(timezone.utc)
 
 
 class DocumentStatus(str, enum.Enum):
@@ -40,7 +45,7 @@ class Document(Base):
     content = Column(Text)
     abstract = Column(Text)
     
-    # Metadata
+    # Metadata fields (split out — 'metadata' is reserved by SQLAlchemy)
     authors = Column(ARRAY(String))
     publication_date = Column(DateTime)
     doi = Column(String(200))
@@ -57,8 +62,8 @@ class Document(Base):
     chunk_count = Column(Integer, default=0)
     
     # Timestamps
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = Column(DateTime, default=_utcnow)
+    updated_at = Column(DateTime, default=_utcnow, onupdate=_utcnow)
     
     # Owner
     user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"))
@@ -89,11 +94,11 @@ class DocumentChunk(Base):
     # Embedding
     embedding_id = Column(String(200))
     
-    # Metadata
-    metadata = Column(JSON, default={})
+    # Extra data (renamed from 'metadata' — reserved by SQLAlchemy Declarative API)
+    extra_data = Column(JSON, default=dict)
     
     # Timestamps
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=_utcnow)
     
     # Relationships
     document = relationship("Document", back_populates="chunks")
@@ -121,17 +126,17 @@ class Entity(Base):
     
     # Confidence and linking
     confidence = Column(Float, default=1.0)
-    linked_id = Column(String(200))  # External KB ID
+    linked_id = Column(String(200))    # External KB ID
     linked_source = Column(String(100))  # e.g., "wikidata", "umls"
     
-    # Metadata
-    metadata = Column(JSON, default={})
+    # Extra data (renamed from 'metadata' — reserved by SQLAlchemy Declarative API)
+    extra_data = Column(JSON, default=dict)
     
     # Graph
     neo4j_id = Column(String(200))
     
     # Timestamps
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=_utcnow)
     
     # Relationships
     document = relationship("Document", back_populates="entities")
@@ -162,11 +167,11 @@ class Relation(Base):
     # Graph
     neo4j_id = Column(String(200))
     
-    # Metadata
-    metadata = Column(JSON, default={})
+    # Extra data (renamed from 'metadata' — reserved by SQLAlchemy Declarative API)
+    extra_data = Column(JSON, default=dict)
     
     # Timestamps
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=_utcnow)
     
     # Relationships
     source_entity = relationship("Entity", foreign_keys=[source_entity_id])
@@ -192,15 +197,15 @@ class User(Base):
     avatar_url = Column(String(500))
     
     # Settings
-    settings = Column(JSON, default={})
+    settings = Column(JSON, default=dict)
     
     # Status
     is_active = Column(Boolean, default=True)
     is_admin = Column(Boolean, default=False)
     
     # Timestamps
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = Column(DateTime, default=_utcnow)
+    updated_at = Column(DateTime, default=_utcnow, onupdate=_utcnow)
     last_login = Column(DateTime)
     
     # Relationships
@@ -234,7 +239,7 @@ class QueryHistory(Base):
     feedback = Column(Text)
     
     # Timestamps
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=_utcnow)
     
     def __repr__(self):
         return f"<QueryHistory(id={self.id}, query={self.query[:50]}...)>"

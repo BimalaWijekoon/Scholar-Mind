@@ -85,72 +85,53 @@ class DocumentService:
     
     def _init_components(self):
         """Initialize processing components if not provided."""
-        print("\n" + "="*60)
-        print("🔧 INITIALIZING DOCUMENT PROCESSING COMPONENTS")
-        print("="*60)
+        logger.info("Initializing document processing components...")
         
         try:
-            # PDF Parser
             if not self.pdf_parser:
-                print("   Loading PDF Parser (PyMuPDF)...")
                 from backend.core.document_processing.pdf_parser import PDFParser
                 self.pdf_parser = PDFParser()
-                print("   ✅ PDF Parser ready")
+                logger.info("PDF Parser ready (PyMuPDF)")
         except Exception as e:
-            print(f"   ❌ PDF Parser failed: {e}")
             logger.warning(f"Could not initialize PDF parser: {e}")
         
         try:
-            # Document Chunker
             if not self.chunker:
-                print("   Loading Document Chunker...")
                 from backend.core.document_processing.chunker import DocumentChunker
                 self.chunker = DocumentChunker(chunk_size=1000, chunk_overlap=200)
-                print("   ✅ Document Chunker ready (chunk_size=1000, overlap=200)")
+                logger.info("Document Chunker ready (chunk_size=1000, overlap=200)")
         except Exception as e:
-            print(f"   ❌ Document Chunker failed: {e}")
             logger.warning(f"Could not initialize chunker: {e}")
         
         try:
-            # Embeddings Manager
             if not self.embeddings_manager:
-                print("   Loading Embeddings Manager (all-MiniLM-L6-v2)...")
                 from backend.core.nlp.embeddings import EmbeddingsManager
                 self.embeddings_manager = EmbeddingsManager(model_name="all-MiniLM-L6-v2")
-                print(f"   ✅ Embeddings Manager ready (dim: {self.embeddings_manager.dimension})")
+                logger.info("Embeddings Manager ready")
         except Exception as e:
-            print(f"   ❌ Embeddings Manager failed: {e}")
             logger.warning(f"Could not initialize embeddings manager: {e}")
         
         try:
-            # Vector Store
             if not self.vector_store:
-                print("   Loading Vector Store (ChromaDB)...")
                 from backend.core.retrieval.vector_store import VectorStore, VectorDBType
                 self.vector_store = VectorStore(
                     db_type=VectorDBType.CHROMA,
                     collection_name="scholarmind_docs",
                     persist_directory="./data/chroma",
                 )
-                print("   ✅ Vector Store ready (ChromaDB @ ./data/chroma)")
+                logger.info("Vector Store ready (ChromaDB @ ./data/chroma)")
         except Exception as e:
-            print(f"   ❌ Vector Store failed: {e}")
             logger.warning(f"Could not initialize vector store: {e}")
         
         try:
-            # Entity Extractor
             if not self.entity_extractor:
-                print("   Loading Entity Extractor (spaCy en_core_web_sm)...")
                 from backend.core.nlp.entity_extractor import EntityExtractor
                 self.entity_extractor = EntityExtractor(model_name="en_core_web_sm", use_scispacy=False)
-                print("   ✅ Entity Extractor ready")
+                logger.info("Entity Extractor ready (spaCy en_core_web_sm)")
         except Exception as e:
-            print(f"   ❌ Entity Extractor failed: {e}")
             logger.warning(f"Could not initialize entity extractor: {e}")
         
-        print("="*60)
-        print("🔧 COMPONENT INITIALIZATION COMPLETE")
-        print("="*60 + "\n")
+        logger.info("Component initialization complete")
 
     async def upload_document(self, file: UploadFile) -> Dict[str, Any]:
         """
@@ -176,19 +157,19 @@ class DocumentService:
         # Read file content
         content = await file.read()
         
-        print(f"\n{'='*60}")
-        print(f"📄 DOCUMENT UPLOAD: {filename}")
-        print(f"{'='*60}")
-        print(f"   ID: {doc_id}")
-        print(f"   Type: {file_type}")
-        print(f"   Size: {len(content)} bytes")
+        logger.info(f"\n{'='*60}")
+        logger.info(f"📄 DOCUMENT UPLOAD: {filename}")
+        logger.info(f"{'='*60}")
+        logger.info(f"   ID: {doc_id}")
+        logger.info(f"   Type: {file_type}")
+        logger.info(f"   Size: {len(content)} bytes")
         
         # Save file
         file_path = await self._save_file_content(content, doc_id, filename)
-        print(f"   ✅ File saved to: {file_path}")
+        logger.info(f"   ✅ File saved to: {file_path}")
         
         # Create document record with PROCESSING status
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         doc_info = DocumentInfo(
             id=doc_id,
             title=filename.rsplit(".", 1)[0] if "." in filename else filename,
@@ -202,7 +183,7 @@ class DocumentService:
         # Store in memory
         self._documents[doc_id] = doc_info
         
-        print(f"\n🔄 PROCESSING PIPELINE STARTED...")
+        logger.info(f"\n🔄 PROCESSING PIPELINE STARTED...")
         
         # Run the processing pipeline
         page_count = None
@@ -212,52 +193,52 @@ class DocumentService:
         try:
             # Step 1: Parse document to extract text
             text_content = ""
-            print(f"\n📖 Step 1: Parsing document...")
+            logger.info(f"\n📖 Step 1: Parsing document...")
             
             if file_type == "application/pdf" or filename.lower().endswith(".pdf"):
                 if self.pdf_parser:
-                    print(f"   Using PDF parser (PyMuPDF)...")
+                    logger.info(f"   Using PDF parser (PyMuPDF)...")
                     pdf_doc = self.pdf_parser.parse(file_path)
                     text_content = pdf_doc.text
                     page_count = len(pdf_doc.pages)
-                    print(f"   ✅ Extracted {len(text_content)} chars from {page_count} pages")
+                    logger.info(f"   ✅ Extracted {len(text_content)} chars from {page_count} pages")
                 else:
-                    print(f"   ⚠️ PDF parser not available!")
+                    logger.info(f"   ⚠️ PDF parser not available!")
             elif file_type.startswith("text/") or filename.lower().endswith((".txt", ".md", ".rst")):
                 # Plain text file
                 try:
                     text_content = content.decode("utf-8")
                 except UnicodeDecodeError:
                     text_content = content.decode("latin-1")
-                print(f"   ✅ Read text file: {len(text_content)} chars")
+                logger.info(f"   ✅ Read text file: {len(text_content)} chars")
             else:
-                print(f"   ⚠️ Unsupported file type: {file_type}, trying as text...")
+                logger.info(f"   ⚠️ Unsupported file type: {file_type}, trying as text...")
                 try:
                     text_content = content.decode("utf-8")
-                    print(f"   ✅ Read as text: {len(text_content)} chars")
+                    logger.info(f"   ✅ Read as text: {len(text_content)} chars")
                 except:
                     text_content = ""
-                    print(f"   ❌ Could not decode as text")
+                    logger.info(f"   ❌ Could not decode as text")
             
             # Step 2: Chunk the document
             if text_content and self.chunker:
-                print(f"\n✂️ Step 2: Chunking document...")
+                logger.info(f"\n✂️ Step 2: Chunking document...")
                 chunks = self.chunker.chunk(text_content, document_id=doc_id)
                 chunk_count = len(chunks)
-                print(f"   ✅ Created {chunk_count} chunks")
+                logger.info(f"   ✅ Created {chunk_count} chunks")
                 
                 # Step 3: Generate embeddings for each chunk
                 if self.embeddings_manager and chunks:
-                    print(f"\n🧠 Step 3: Generating embeddings...")
+                    logger.info(f"\n🧠 Step 3: Generating embeddings...")
                     chunk_texts = [c.text if hasattr(c, 'text') else str(c) for c in chunks]
                     embeddings_array = self.embeddings_manager.embed_documents(chunk_texts)
                     # Convert numpy array to list of lists for vector store
                     embeddings = embeddings_array.tolist() if hasattr(embeddings_array, 'tolist') else list(embeddings_array)
-                    print(f"   ✅ Generated {len(embeddings)} embeddings (dim: {len(embeddings[0]) if embeddings else 0})")
+                    logger.info(f"   ✅ Generated {len(embeddings)} embeddings (dim: {len(embeddings[0]) if embeddings else 0})")
                     
                     # Step 4: Store in vector store
                     if self.vector_store and embeddings:
-                        print(f"\n💾 Step 4: Storing in vector store (ChromaDB)...")
+                        logger.info(f"\n💾 Step 4: Storing in vector store (ChromaDB)...")
                         # Prepare lists for vector store
                         texts_to_store = []
                         ids_to_store = []
@@ -279,19 +260,19 @@ class DocumentService:
                             metadatas=metadatas_to_store,
                             ids=ids_to_store,
                         )
-                        print(f"   ✅ Stored {len(texts_to_store)} chunks in vector store")
+                        logger.info(f"   ✅ Stored {len(texts_to_store)} chunks in vector store")
                 else:
-                    print(f"   ⚠️ Embeddings manager not available, skipping...")
+                    logger.info(f"   ⚠️ Embeddings manager not available, skipping...")
             else:
                 if not text_content:
-                    print(f"   ⚠️ No text content to chunk")
+                    logger.info(f"   ⚠️ No text content to chunk")
                 if not self.chunker:
-                    print(f"   ⚠️ Chunker not available")
+                    logger.info(f"   ⚠️ Chunker not available")
             
             # Step 5: Extract entities
             relations = []
             if text_content and self.entity_extractor:
-                print(f"\n🏷️ Step 5: Extracting entities (NER)...")
+                logger.info(f"\n🏷️ Step 5: Extracting entities (NER)...")
                 # Process first 50k chars for entity extraction (to avoid memory issues)
                 sample_text = text_content[:50000] if len(text_content) > 50000 else text_content
                 extracted = self.entity_extractor.extract(sample_text, document_id=doc_id)
@@ -308,12 +289,12 @@ class DocumentService:
                     }
                     for e in extracted
                 ]
-                print(f"   ✅ Extracted {len(entities)} entities")
+                logger.info(f"   ✅ Extracted {len(entities)} entities")
                 if entities[:5]:
-                    print(f"   Sample entities: {[e['text'] for e in entities[:5]]}")
+                    logger.info(f"   Sample entities: {[e['text'] for e in entities[:5]]}")
                 
                 # Step 6: Extract relations between entities
-                print(f"\n🔗 Step 6: Extracting relations between entities...")
+                logger.info(f"\n🔗 Step 6: Extracting relations between entities...")
                 try:
                     from backend.core.nlp.relation_extractor import RelationExtractor
                     relation_extractor = RelationExtractor(model_name="en_core_web_sm")
@@ -329,29 +310,29 @@ class DocumentService:
                         }
                         for r in extracted_relations
                     ]
-                    print(f"   ✅ Extracted {len(relations)} relations")
+                    logger.info(f"   ✅ Extracted {len(relations)} relations")
                     if relations[:3]:
-                        print(f"   Sample relations: {[(r['source'], r['type'], r['target']) for r in relations[:3]]}")
+                        logger.info(f"   Sample relations: {[(r['source'], r['type'], r['target']) for r in relations[:3]]}")
                 except Exception as e:
-                    print(f"   ⚠️ Relation extraction error: {e}")
+                    logger.warning(f"   ⚠️ Relation extraction error: {e}")
                     import traceback
                     traceback.print_exc()
                 
                 # Step 7: Add entities and relations to knowledge graph
-                print(f"\n📊 Step 7: Building knowledge graph...")
+                logger.info(f"\n📊 Step 7: Building knowledge graph...")
                 try:
                     from backend.services.graph_service import GraphService
                     graph_service = GraphService()
                     added_entities = graph_service.add_entities_from_extraction(entities, doc_id)
                     added_relations = graph_service.add_relations_from_extraction(relations, doc_id)
-                    print(f"   ✅ Added {added_entities} entities and {added_relations} relations to graph")
+                    logger.info(f"   ✅ Added {added_entities} entities and {added_relations} relations to graph")
                 except Exception as e:
-                    print(f"   ⚠️ Could not add to graph: {e}")
+                    logger.info(f"   ⚠️ Could not add to graph: {e}")
                     import traceback
                     traceback.print_exc()
             else:
                 if not self.entity_extractor:
-                    print(f"   ⚠️ Entity extractor not available, skipping...")
+                    logger.info(f"   ⚠️ Entity extractor not available, skipping...")
             
             # Update document status to READY
             doc_info.status = "ready"
@@ -362,24 +343,24 @@ class DocumentService:
             if page_count:
                 doc_info.metadata["page_count"] = page_count
             
-            print(f"\n{'='*60}")
-            print(f"✅ PROCESSING COMPLETE!")
-            print(f"{'='*60}")
-            print(f"   Document ID: {doc_id}")
-            print(f"   Status: ready")
-            print(f"   Chunks: {chunk_count}")
-            print(f"   Entities: {len(entities)}")
-            print(f"   Text length: {len(text_content)} chars")
-            print(f"{'='*60}\n")
+            logger.info(f"\n{'='*60}")
+            logger.info(f"✅ PROCESSING COMPLETE!")
+            logger.info(f"{'='*60}")
+            logger.info(f"   Document ID: {doc_id}")
+            logger.info(f"   Status: ready")
+            logger.info(f"   Chunks: {chunk_count}")
+            logger.info(f"   Entities: {len(entities)}")
+            logger.info(f"   Text length: {len(text_content)} chars")
+            logger.info(f"{'='*60}\n")
             
         except Exception as e:
-            print(f"\n{'='*60}")
-            print(f"❌ PROCESSING ERROR!")
-            print(f"{'='*60}")
-            print(f"   Error: {e}")
+            logger.info(f"\n{'='*60}")
+            logger.info(f"❌ PROCESSING ERROR!")
+            logger.info(f"{'='*60}")
+            logger.warning(f"   Error: {e}")
             import traceback
             traceback.print_exc()
-            print(f"{'='*60}\n")
+            logger.info(f"{'='*60}\n")
             doc_info.status = "error"
             doc_info.metadata["error"] = str(e)
         
@@ -414,7 +395,7 @@ class DocumentService:
         parsed = urlparse(url)
         filename = parsed.path.split("/")[-1] or "document.html"
         
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         doc_info = DocumentInfo(
             id=doc_id,
             title=filename,
@@ -494,7 +475,7 @@ class DocumentService:
             filename=filename,
             file_type=file_type,
             status="pending",
-            created_at=datetime.utcnow(),
+            created_at=datetime.now(timezone.utc),
             metadata={"file_path": file_path},
         )
         
