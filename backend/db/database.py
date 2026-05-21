@@ -44,6 +44,14 @@ class Database:
             database_url = database_url.replace("postgres://", "postgresql+asyncpg://", 1)
         elif database_url.startswith("postgresql://") and "+asyncpg" not in database_url:
             database_url = database_url.replace("postgresql://", "postgresql+asyncpg://", 1)
+
+        # asyncpg doesn't accept sslmode as a URL param — strip it and pass ssl=True via connect_args
+        connect_args = {}
+        if "sslmode=require" in database_url:
+            database_url = database_url.replace("?sslmode=require", "").replace("&sslmode=require", "")
+            connect_args["ssl"] = "require"
+        elif "sslmode=disable" in database_url:
+            database_url = database_url.replace("?sslmode=disable", "").replace("&sslmode=disable", "")
         
         self.database_url = database_url
         
@@ -52,6 +60,7 @@ class Database:
             echo=echo,
             pool_size=pool_size,
             max_overflow=max_overflow,
+            connect_args=connect_args,
         )
         
         self.async_session = async_sessionmaker(
