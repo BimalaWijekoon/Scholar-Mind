@@ -29,7 +29,7 @@ async def get_neo4j_client() -> AsyncGenerator[Neo4jClient, None]:
 
 @lru_cache()
 def get_vector_store() -> VectorStore:
-    """Get vector store instance (cached)."""
+    """Get vector store instance (cached singleton)."""
     return VectorStore(
         db_type=settings.VECTOR_STORE_TYPE,
         collection_name=settings.CHROMA_COLLECTION_NAME,
@@ -37,16 +37,24 @@ def get_vector_store() -> VectorStore:
     )
 
 
+@lru_cache()
 def get_document_service() -> DocumentService:
-    """Get document service instance."""
+    """Get document service instance (cached singleton).
+    
+    IMPORTANT: lru_cache ensures ML models (spaCy, sentence-transformers)
+    are loaded only ONCE at first request, not on every request.
+    Without this, every API call would re-load ~500MB of models.
+    """
     return DocumentService()
 
 
+@lru_cache()
 def get_query_service() -> QueryService:
-    """Get query service instance."""
+    """Get query service instance (cached singleton)."""
     return QueryService()
 
 
+@lru_cache()
 def get_graph_service() -> GraphService:
-    """Get graph service instance."""
+    """Get graph service instance (cached singleton)."""
     return GraphService()
