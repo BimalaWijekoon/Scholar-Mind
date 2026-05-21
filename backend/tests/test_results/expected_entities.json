@@ -1,0 +1,69 @@
+{
+  "PERSON": [
+    "Sarah Chen",
+    "Michael Rodriguez",
+    "Emily Watson",
+    "Devlin",
+    "Radford",
+    "Kipf",
+    "Welling",
+    "Hamilton",
+    "Beltagy",
+    "Lee",
+    "Vaswani",
+    "Lo",
+    "Jain"
+  ],
+  "ORGANIZATION": [
+    "Stanford University",
+    "MIT",
+    "Oxford University",
+    "Google",
+    "Allen Institute for AI",
+    "National Library of Medicine",
+    "University of Amsterdam",
+    "National Science Foundation",
+    "OpenAI"
+  ],
+  "METHOD": [
+    "AEGNN",
+    "BERT",
+    "GPT",
+    "SciBERT",
+    "BioBERT",
+    "Graph Neural Networks",
+    "GNN",
+    "GCN",
+    "GraphSAGE",
+    "Transformer",
+    "attention mechanism",
+    "TF-IDF"
+  ],
+  "DATASET": [
+    "SciERC",
+    "PubMed",
+    "ACL-ARC",
+    "S2ORC",
+    "SciREX",
+    "Semantic Scholar",
+    "ACL Anthology"
+  ],
+  "METRIC": [
+    "F1-score",
+    "92.3%",
+    "15%",
+    "78.5",
+    "82.1",
+    "91.7"
+  ],
+  "CONCEPT": [
+    "attention mechanism",
+    "multi-hop reasoning",
+    "document understanding",
+    "Natural Language Processing",
+    "NLP",
+    "contrastive learning",
+    "message passing",
+    "node classification"
+  ]
+}

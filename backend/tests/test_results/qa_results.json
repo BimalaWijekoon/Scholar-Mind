@@ -1,0 +1,25 @@
+{
+  "questions_tested": 4,
+  "qa_results": {
+    "What is the main contribution of this paper?": {
+      "answer": "I couldn't find relevant information to answer your question.",
+      "confidence": 0.3,
+      "sources": []
+    },
+    "How much does AEGNN outperform BERT?": {
+      "answer": "I couldn't find relevant information to answer your question.",
+      "confidence": 0.3,
+      "sources": []
+    },
+    "What datasets were used for evaluation?": {
+      "answer": "I couldn't find relevant information to answer your question.",
+      "confidence": 0.3,
+      "sources": []
+    },
+    "What is the F1-score achieved on SciERC?": {
+      "answer": "I couldn't find relevant information to answer your question.",
+      "confidence": 0.3,
+      "sources": []
+    }
+  }
+}

@@ -1,0 +1,81 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: scholarmind-postgres
+    environment:
+      POSTGRES_DB: scholarmind
+      POSTGRES_USER: scholarmind
+      POSTGRES_PASSWORD: scholarmind123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U scholarmind"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Neo4j Graph Database
+  neo4j:
+    image: neo4j:5.15.0
+    container_name: scholarmind-neo4j
+    environment:
+      NEO4J_AUTH: neo4j/scholarmind123
+      NEO4J_PLUGINS: '["apoc", "graph-data-science"]'
+      NEO4J_dbms_security_procedures_unrestricted: "apoc.*,gds.*"
+      NEO4J_dbms_security_procedures_allowlist: "apoc.*,gds.*"
+    ports:
+      - "7474:7474"  # HTTP
+      - "7687:7687"  # Bolt
+    volumes:
+      - neo4j_data:/data
+      - neo4j_logs:/logs
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7474"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+  # Redis Cache & Message Broker
+  redis:
+    image: redis:7-alpine
+    container_name: scholarmind-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # MinIO Object Storage (for document files)
+  minio:
+    image: minio/minio:latest
+    container_name: scholarmind-minio
+    environment:
+      MINIO_ROOT_USER: scholarmind
+      MINIO_ROOT_PASSWORD: scholarmind123
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000"  # API
+      - "9001:9001"  # Console
+    volumes:
+      - minio_data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+volumes:
+  postgres_data:
+  neo4j_data:
+  neo4j_logs:
+  redis_data:
+  minio_data:

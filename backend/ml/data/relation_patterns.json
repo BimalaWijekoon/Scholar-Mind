@@ -1,0 +1,67 @@
+{
+  "relation_patterns": [
+    {
+      "relation_type": "AUTHORED_BY",
+      "patterns": [
+        {"verb": "write", "prep": "by"},
+        {"verb": "author", "prep": "by"},
+        {"verb": "publish", "prep": "by"},
+        {"verb": "create", "prep": "by"}
+      ]
+    },
+    {
+      "relation_type": "CITES",
+      "patterns": [
+        {"verb": "cite", "prep": null},
+        {"verb": "reference", "prep": null},
+        {"verb": "mention", "prep": null}
+      ]
+    },
+    {
+      "relation_type": "USES",
+      "patterns": [
+        {"verb": "use", "prep": null},
+        {"verb": "employ", "prep": null},
+        {"verb": "utilize", "prep": null},
+        {"verb": "apply", "prep": null}
+      ]
+    },
+    {
+      "relation_type": "TREATS",
+      "patterns": [
+        {"verb": "treat", "prep": null},
+        {"verb": "cure", "prep": null},
+        {"verb": "alleviate", "prep": null}
+      ]
+    },
+    {
+      "relation_type": "CAUSES",
+      "patterns": [
+        {"verb": "cause", "prep": null},
+        {"verb": "induce", "prep": null},
+        {"verb": "trigger", "prep": null},
+        {"verb": "lead", "prep": "to"}
+      ]
+    }
+  ],
+  "stop_words": [
+    "the", "a", "an", "is", "are", "was", "were", "be", "been",
+    "being", "have", "has", "had", "do", "does", "did", "will",
+    "would", "could", "should", "may", "might", "must", "shall"
+  ],
+  "domain_specific_terms": {
+    "machine_learning": [
+      "neural network", "deep learning", "transformer", "attention",
+      "gradient descent", "backpropagation", "loss function",
+      "overfitting", "regularization", "hyperparameter"
+    ],
+    "biomedical": [
+      "protein", "gene", "enzyme", "receptor", "pathway",
+      "expression", "mutation", "phenotype", "genotype"
+    ],
+    "physics": [
+      "quantum", "particle", "field", "wave", "energy",
+      "momentum", "relativity", "entropy"
+    ]
+  }
+}

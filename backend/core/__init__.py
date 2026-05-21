@@ -1,0 +1,3 @@
+"""
+ScholarMind Core Business Logic
+"""

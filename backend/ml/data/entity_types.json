@@ -1,0 +1,92 @@
+{
+  "entity_categories": [
+    {
+      "name": "PERSON",
+      "description": "Names of people, researchers, authors",
+      "examples": ["Albert Einstein", "Marie Curie", "John Smith"]
+    },
+    {
+      "name": "ORGANIZATION",
+      "description": "Institutions, companies, research groups",
+      "examples": ["MIT", "Google", "World Health Organization"]
+    },
+    {
+      "name": "CONCEPT",
+      "description": "Abstract concepts, theories, ideas",
+      "examples": ["machine learning", "natural selection", "quantum entanglement"]
+    },
+    {
+      "name": "TECHNOLOGY",
+      "description": "Technologies, tools, systems",
+      "examples": ["neural network", "CRISPR", "blockchain"]
+    },
+    {
+      "name": "METHOD",
+      "description": "Research methods, algorithms, techniques",
+      "examples": ["gradient descent", "cross-validation", "meta-analysis"]
+    },
+    {
+      "name": "DATASET",
+      "description": "Datasets, corpora, benchmarks",
+      "examples": ["ImageNet", "MNIST", "PubMed"]
+    },
+    {
+      "name": "METRIC",
+      "description": "Evaluation metrics, measurements",
+      "examples": ["accuracy", "F1 score", "BLEU score"]
+    },
+    {
+      "name": "CHEMICAL",
+      "description": "Chemical compounds, molecules",
+      "examples": ["glucose", "ATP", "dopamine"]
+    },
+    {
+      "name": "DISEASE",
+      "description": "Diseases, disorders, conditions",
+      "examples": ["cancer", "diabetes", "Alzheimer's disease"]
+    },
+    {
+      "name": "GENE",
+      "description": "Genes, genetic elements",
+      "examples": ["BRCA1", "TP53", "ACE2"]
+    }
+  ],
+  "relation_types": [
+    {
+      "name": "AUTHORED_BY",
+      "description": "Paper authored by person",
+      "source_types": ["DOCUMENT", "PAPER"],
+      "target_types": ["PERSON"]
+    },
+    {
+      "name": "CITES",
+      "description": "Document cites another document",
+      "source_types": ["DOCUMENT"],
+      "target_types": ["DOCUMENT"]
+    },
+    {
+      "name": "USES",
+      "description": "Uses a method, technology, or dataset",
+      "source_types": ["DOCUMENT", "METHOD"],
+      "target_types": ["METHOD", "TECHNOLOGY", "DATASET"]
+    },
+    {
+      "name": "RELATED_TO",
+      "description": "General relationship between concepts",
+      "source_types": ["CONCEPT", "TECHNOLOGY", "METHOD"],
+      "target_types": ["CONCEPT", "TECHNOLOGY", "METHOD"]
+    },
+    {
+      "name": "TREATS",
+      "description": "Treatment relationship",
+      "source_types": ["CHEMICAL", "METHOD"],
+      "target_types": ["DISEASE"]
+    },
+    {
+      "name": "CAUSES",
+      "description": "Causal relationship",
+      "source_types": ["GENE", "CHEMICAL", "CONCEPT"],
+      "target_types": ["DISEASE", "CONCEPT"]
+    }
+  ]
+}

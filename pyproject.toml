@@ -1,0 +1,82 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "scholarmind"
+version = "0.1.0"
+description = "AI Research Assistant with Knowledge Graphs"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Bimala Wijekoon", email = "bimala@example.com"}
+]
+requires-python = ">=3.11"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+keywords = [
+    "ai",
+    "research",
+    "knowledge-graph",
+    "nlp",
+    "rag",
+    "graphrag",
+    "langchain",
+]
+
+[project.urls]
+Homepage = "https://github.com/bimalawijekoon/scholarmind"
+Documentation = "https://github.com/bimalawijekoon/scholarmind#readme"
+Repository = "https://github.com/bimalawijekoon/scholarmind"
+Issues = "https://github.com/bimalawijekoon/scholarmind/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["backend*"]
+
+[tool.black]
+line-length = 88
+target-version = ['py311']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+    \.eggs
+    | \.git
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 88
+known_first_party = ["backend"]
+skip = [".venv", "venv"]
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["backend/tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+asyncio_mode = "auto"
+addopts = "-v --tb=short"

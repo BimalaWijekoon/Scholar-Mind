@@ -1,0 +1,149 @@
+# ============================================
+# ScholarMind .gitignore
+# ============================================
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+pytest_cache/
+
+# Translations
+*.mo
+*.pot
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# Environments
+.env
+.env.local
+.env.*.local
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project specific
+data/uploads/*
+data/processed/*
+data/vectors/*
+data/models/*
+!data/uploads/.gitkeep
+!data/processed/.gitkeep
+!data/vectors/.gitkeep
+!data/models/.gitkeep
+
+# Logs
+logs/
+*.log
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.next/
+frontend/out/
+frontend/.nuxt/
+frontend/.cache/
+
+# Database
+*.db
+*.sqlite3
+
+# Secrets
+*.pem
+*.key
+secrets/
+
+# ChromaDB / Vector Store data
+data/chroma/
+data/embeddings/
+data/temp/
+
+# Docker volumes (local dev)
+minio_data/
+neo4j/data/
+neo4j/logs/
+postgres_data/
+
+# Misc generated files
+tree_output.txt
+15FACTOR_AUDIT.md
+notebooks/.ipynb_checkpoints/

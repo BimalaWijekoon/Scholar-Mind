@@ -1,0 +1,67 @@
+[
+  [
+    "AEGNN",
+    "OUTPERFORMS",
+    "BERT"
+  ],
+  [
+    "AEGNN",
+    "USES",
+    "attention mechanism"
+  ],
+  [
+    "AEGNN",
+    "USES",
+    "Graph Neural Networks"
+  ],
+  [
+    "Sarah Chen",
+    "AFFILIATED_WITH",
+    "Stanford University"
+  ],
+  [
+    "Michael Rodriguez",
+    "AFFILIATED_WITH",
+    "MIT"
+  ],
+  [
+    "Emily Watson",
+    "AFFILIATED_WITH",
+    "Oxford University"
+  ],
+  [
+    "SciBERT",
+    "TRAINED_ON",
+    "Semantic Scholar"
+  ],
+  [
+    "BioBERT",
+    "TRAINED_ON",
+    "PubMed"
+  ],
+  [
+    "AEGNN",
+    "EVALUATED_ON",
+    "SciERC"
+  ],
+  [
+    "AEGNN",
+    "EVALUATED_ON",
+    "PubMed"
+  ],
+  [
+    "AEGNN",
+    "EVALUATED_ON",
+    "ACL-ARC"
+  ],
+  [
+    "Devlin",
+    "INTRODUCED",
+    "BERT"
+  ],
+  [
+    "Kipf",
+    "INTRODUCED",
+    "GCN"
+  ]
+]

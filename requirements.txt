@@ -1,0 +1,73 @@
+# ============================================
+# ScholarMind - AI Research Assistant
+# Python Dependencies
+# ============================================
+
+# === Backend Framework ===
+fastapi>=0.109.0
+uvicorn[standard]>=0.27.0
+python-multipart>=0.0.6
+pydantic>=2.5.0
+pydantic-settings>=2.1.0
+
+# === AI/LLM Framework ===
+langchain>=0.3.0
+langchain-community>=0.3.0
+langchain-google-genai>=2.0.0
+langgraph>=0.2.0
+google-generativeai>=0.8.0
+
+# === Embeddings & Vector Store ===
+sentence-transformers>=2.2.2
+chromadb>=0.4.22
+qdrant-client>=1.7.0
+
+# === Graph Database ===
+neo4j>=5.15.0
+networkx>=3.2.1
+
+# === NLP Libraries ===
+spacy>=3.7.0
+scispacy>=0.5.3
+transformers>=4.36.0
+torch>=2.1.0
+torchvision>=0.16.0
+
+# === Document Processing ===
+PyMuPDF>=1.23.0
+pdfplumber>=0.10.0
+python-docx>=1.1.0
+unstructured>=0.12.0
+beautifulsoup4>=4.12.0
+lxml>=5.1.0
+
+# === Database ===
+sqlalchemy>=2.0.25
+asyncpg>=0.29.0
+alembic>=1.13.0
+psycopg2-binary>=2.9.9
+
+# === Task Queue & Caching ===
+celery>=5.3.6
+redis>=5.0.1
+minio>=7.2.0
+
+# === Utilities ===
+python-dotenv>=1.0.0
+httpx>=0.26.0
+aiofiles>=23.2.1
+tenacity>=8.2.3
+pyyaml>=6.0.1
+python-jose[cryptography]>=3.3.0
+passlib[bcrypt]>=1.7.4
+
+# === Testing ===
+pytest>=7.4.4
+pytest-asyncio>=0.23.0
+pytest-cov>=4.1.0
+
+# === Development ===
+black>=23.12.0
+isort>=5.13.0
+flake8>=7.0.0
+mypy>=1.8.0

@@ -1,0 +1,17 @@
+{
+  "document_id": "0a66a9e4-364f-4db5-b1e8-cecf7d9c904a",
+  "upload_result": {
+    "id": "0a66a9e4-364f-4db5-b1e8-cecf7d9c904a",
+    "title": "sample_paper",
+    "filename": "sample_paper.txt",
+    "file_type": "text/plain",
+    "upload_date": "2026-02-02T08:18:07.699089",
+    "status": "ready",
+    "page_count": null,
+    "chunk_count": 9,
+    "entity_count": 174,
+    "authors": null,
+    "abstract": null
+  },
+  "content_length": 7159
+}

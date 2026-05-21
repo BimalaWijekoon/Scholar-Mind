@@ -1,0 +1,240 @@
+{
+  "test_started": "2026-02-02T13:47:46.420842",
+  "test_completed": "2026-02-02T13:48:11.647857",
+  "overall_status": "FAILED",
+  "tests": {
+    "service_initialization": {
+      "status": "PASSED",
+      "details": {
+        "services": [
+          "DocumentService",
+          "GraphService",
+          "QueryService",
+          "VectorStore",
+          "DocumentChunker",
+          "EntityExtractor",
+          "RelationExtractor",
+          "EmbeddingsManager"
+        ]
+      },
+      "duration_seconds": 11.744198322296143,
+      "timestamp": "2026-02-02T13:48:07.671481"
+    },
+    "document_upload_pipeline": {
+      "status": "PASSED",
+      "details": {
+        "document_id": "0a66a9e4-364f-4db5-b1e8-cecf7d9c904a",
+        "upload_result": {
+          "id": "0a66a9e4-364f-4db5-b1e8-cecf7d9c904a",
+          "title": "sample_paper",
+          "filename": "sample_paper.txt",
+          "file_type": "text/plain",
+          "upload_date": "2026-02-02T08:18:07.699089",
+          "status": "ready",
+          "page_count": null,
+          "chunk_count": 9,
+          "entity_count": 174,
+          "authors": null,
+          "abstract": null
+        },
+        "content_length": 7159
+      },
+      "duration_seconds": 2.628873825073242,
+      "timestamp": "2026-02-02T13:48:10.301327"
+    },
+    "text_chunking": {
+      "status": "PASSED",
+      "details": {
+        "total_chunks": 9,
+        "chunk_sizes": [
+          760,
+          810,
+          901,
+          942,
+          915,
+          733,
+          906,
+          992,
+          184
+        ],
+        "average_size": 793.6666666666666,
+        "sample_chunks": [
+          "\nTitle: Attention-Enhanced Graph Neural Networks for Scientific Document Understanding\n\nAuthors: Dr. Sarah Chen, Dr. Michael Rodriguez, Prof. Emily Watson\nAffiliation: Stanford University, MIT, Oxford...",
+          "Natural Language Processing (NLP) has revolutionized how we analyze scientific literature.\nTraditional approaches using TF-IDF and word embeddings have been superseded by transformer\narchitectures lik...",
+          "1. A novel architecture that outperforms existing methods on document understanding tasks\n2. An efficient training procedure using contrastive learning\n3. Comprehensive evaluation on multiple scientif..."
+        ]
+      },
+      "duration_seconds": 0.0,
+      "timestamp": "2026-02-02T13:48:10.334734"
+    },
+    "embedding_generation": {
+      "status": "PASSED",
+      "details": {
+        "embedding_count": 1,
+        "embedding_dimension": 384,
+        "sample_embedding": [
+          "-0.101703204",
+          "-0.004781118",
+          "0.035320055",
+          "0.049950648",
+          "0.109970964",
+          "0.0021495856",
+          "-0.07206898",
+          "0.062547825",
+          "0.036421884",
+          "0.0374295"
+        ]
+      },
+      "duration_seconds": 0.04343843460083008,
+      "timestamp": "2026-02-02T13:48:10.379172"
+    },
+    "named_entity_recognition": {
+      "status": "FAILED",
+      "details": {
+        "error": "'Entity' object has no attribute 'get'"
+      },
+      "duration_seconds": 0.25235557556152344,
+      "timestamp": "2026-02-02T13:48:10.642320"
+    },
+    "relation_extraction": {
+      "status": "FAILED",
+      "details": {
+        "error": "RelationExtractor.extract() got an unexpected keyword argument 'document_id'"
+      },
+      "duration_seconds": 0.0,
+      "timestamp": "2026-02-02T13:48:10.657008"
+    },
+    "knowledge_graph_building": {
+      "status": "FAILED",
+      "details": {
+        "nodes_added": 0,
+        "edges_added": 0,
+        "graph_statistics": {
+          "node_count": 0,
+          "relationship_count": 0,
+          "entity_types": [],
+          "relation_types": []
+        }
+      },
+      "duration_seconds": 0.0,
+      "timestamp": "2026-02-02T13:48:10.657008"
+    },
+    "graph_query": {
+      "status": "FAILED",
+      "details": {
+        "total_nodes": 0,
+        "total_edges": 0,
+        "listed_entities": 0,
+        "sample_nodes": [],
+        "sample_edges": [],
+        "neighbor_query_result": null
+      },
+      "duration_seconds": 0.0,
+      "timestamp": "2026-02-02T13:48:10.658993"
+    },
+    "vector_search": {
+      "status": "FAILED",
+      "details": {
+        "error": "VectorStore.search() got an unexpected keyword argument 'top_k'"
+      },
+      "duration_seconds": 0.469679594039917,
+      "timestamp": "2026-02-02T13:48:11.158058"
+    },
+    "hybrid_search": {
+      "status": "FAILED",
+      "details": {
+        "error": "HybridRetriever.__init__() got an unexpected keyword argument 'graph_service'"
+      },
+      "duration_seconds": 0.0010876655578613281,
+      "timestamp": "2026-02-02T13:48:11.160566"
+    },
+    "question_answering": {
+      "status": "PASSED",
+      "details": {
+        "questions_tested": 4,
+        "qa_results": {
+          "What is the main contribution of this paper?": {
+            "answer": "I couldn't find relevant information to answer your question.",
+            "confidence": 0.3,
+            "sources": []
+          },
+          "How much does AEGNN outperform BERT?": {
+            "answer": "I couldn't find relevant information to answer your question.",
+            "confidence": 0.3,
+            "sources": []
+          },
+          "What datasets were used for evaluation?": {
+            "answer": "I couldn't find relevant information to answer your question.",
+            "confidence": 0.3,
+            "sources": []
+          },
+          "What is the F1-score achieved on SciERC?": {
+            "answer": "I couldn't find relevant information to answer your question.",
+            "confidence": 0.3,
+            "sources": []
+          }
+        }
+      },
+      "duration_seconds": 0.0,
+      "timestamp": "2026-02-02T13:48:11.161565"
+    },
+    "claim_extraction": {
+      "status": "FAILED",
+      "details": {
+        "error": "'ClaimExtractor' object has no attribute 'extract_claims'"
+      },
+      "duration_seconds": 0.46004343032836914,
+      "timestamp": "2026-02-02T13:48:11.621609"
+    },
+    "research_question_generation": {
+      "status": "FAILED",
+      "details": {
+        "error": "'ResearchQuestionGenerator' object has no attribute 'generate_questions'"
+      },
+      "duration_seconds": 0.0,
+      "timestamp": "2026-02-02T13:48:11.622576"
+    },
+    "paper_recommendation": {
+      "status": "PASSED",
+      "details": {
+        "document_id": "0a66a9e4-364f-4db5-b1e8-cecf7d9c904a",
+        "recommendations_count": 0,
+        "recommendations": [],
+        "note": "Limited results with single document - demonstrates algorithm works"
+      },
+      "duration_seconds": 0.0,
+      "timestamp": "2026-02-02T13:48:11.623345"
+    },
+    "duplicate_detection": {
+      "status": "FAILED",
+      "details": {
+        "error": "'DuplicateDetector' object has no attribute 'batch_detect'"
+      },
+      "duration_seconds": 0.0,
+      "timestamp": "2026-02-02T13:48:11.624353"
+    },
+    "full_document_analysis": {
+      "status": "PASSED",
+      "details": {
+        "document_id": "0a66a9e4-364f-4db5-b1e8-cecf7d9c904a",
+        "title": "Attention-Enhanced Graph Neural Networks for Scientific Document Understanding",
+        "processing": {
+          "chunks_created": 9,
+          "entities_extracted": 0,
+          "relations_extracted": 0
+        },
+        "entities_summary": {},
+        "relations_summary": {},
+        "analysis_complete": true
+      },
+      "duration_seconds": 0.0,
+      "timestamp": "2026-02-02T13:48:11.627046"
+    }
+  },
+  "summary": {
+    "total": 16,
+    "passed": 7,
+    "failed": 9,
+    "skipped": 0
+  }
+}
